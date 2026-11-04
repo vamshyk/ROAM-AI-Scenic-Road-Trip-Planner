@@ -1,568 +1,323 @@
-\# ROAM — Beyond the Route
+# ROAM — Beyond the Route
 
+**An AI-powered scenic road trip planner built to help travellers discover more than just the fastest route.**
 
+ROAM is a full-stack road trip planning application combining road routing, OpenStreetMap geospatial data, scenic feature analysis, machine learning, and day-wise itinerary generation.
 
-\*\*An AI-powered scenic road trip planner built to help travellers discover more than just the fastest route.\*\*
+## Key Features
 
+- **Road routing:** Calculate road routes between locations using Valhalla with OSRM fallback.
+- **Route alternatives:** Compare fastest, scenic-candidate, and toll-aware routing profiles.
+- **Scenic scoring:** Calculate a heuristic score from 0–100 using mapped forest, water, tourist attraction, and road-distribution features.
+- **Day-wise itineraries:** Divide a trip into daily travel segments with overnight stops.
+- **Points of interest:** Identify food, fuel, attractions, and viewpoints near the route.
+- **AI trip summaries:** Generate AI-assisted trip descriptions with fallback functionality.
+- **Weather information:** Provide weather-related travel information.
+- **Machine learning:** Predict scenic scores and classify route environments using trained models.
 
-
-ROAM is a full-stack road trip planning application that combines real-world road routing, local OpenStreetMap data, scenic feature analysis, machine learning and day-wise itinerary generation.
-
-
-
-The goal is to help travellers plan journeys based on both travel efficiency and the experience along the way.
-
-
-
-\---
-
-
-
-\## Key Features
-
-
-
-\- \*\*Road route calculation:\*\* Calculate road routes between locations using routing services.
-
-\- \*\*Scenic intelligence:\*\* Analyse route geometry against local OpenStreetMap datasets.
-
-\- \*\*Multiple route profiles:\*\* Support route comparisons and personalized route recommendations.
-
-\- \*\*Scenic scoring:\*\* Generate a 0–100 heuristic score using forest, water, tourist attraction and road-distribution features.
-
-\- \*\*Day-wise itinerary:\*\* Divide journeys into daily travel segments with overnight stops.
-
-\- \*\*Points of interest:\*\* Identify food, fuel, attractions and viewpoints near the route.
-
-\- \*\*AI trip summaries:\*\* Generate trip descriptions with an AI-powered summary and fallback functionality.
-
-\- \*\*Weather information:\*\* Provide weather-related travel information.
-
-\- \*\*Machine learning:\*\* Predict scenic scores and classify route environments using trained ML models.
-
-
-
-\## Technology Stack
-
-
+## Technology Stack
 
 | Component | Technologies |
-
 |---|---|
-
 | Frontend | React, TypeScript, Vite |
-
-| Styling | CSS |
-
 | Maps | MapLibre |
-
+| Styling | CSS |
 | Backend | Python, FastAPI |
-
 | Database | SQLite |
-
-| Geospatial processing | GeoPandas, Shapely |
-
+| Geospatial processing | Shapely, GeoPandas |
 | Data source | OpenStreetMap |
-
 | Machine learning | Scikit-learn, NumPy, Pandas |
-
 | Version control | Git, GitHub |
 
-
-
-\## System Architecture
-
-
+## Architecture
 
 ```text
-
-&#x20;             USER
-
-&#x20;               |
-
-&#x20;               v
-
-&#x20;      REACT + TYPESCRIPT
-
-&#x20;         FRONTEND
-
-&#x20;               |
-
-&#x20;         REST API
-
-&#x20;               |
-
-&#x20;               v
-
-&#x20;         FASTAPI
-
-&#x20;         BACKEND
-
-&#x20;               |
-
-&#x20;      +--------+---------+
-
-&#x20;      |        |         |
-
-&#x20;      v        v         v
-
-&#x20;   ROUTING  SCENIC     ITINERARY
-
-&#x20;    ENGINE  ENGINE     GENERATOR
-
-&#x20;      |        |         |
-
-&#x20;      v        v         v
-
-&#x20;  ROAD DATA  LOCAL OSM   POI DATA
-
-&#x20;             DATASETS
-
-&#x20;               |
-
-&#x20;               v
-
-&#x20;       SCENIC FEATURES
-
-&#x20;               |
-
-&#x20;               v
-
-&#x20;         ML PREDICTOR
-
-&#x20;               |
-
-&#x20;               v
-
-&#x20;       ROUTE RECOMMENDER
-
-&#x20;               |
-
-&#x20;               v
-
-&#x20;        TRIP RESPONSE
-
-&#x20;               |
-
-&#x20;               v
-
-&#x20;         FRONTEND UI
-
+                 USER
+                   |
+                   v
+           REACT + TYPESCRIPT
+                FRONTEND
+                   |
+                REST API
+                   |
+                   v
+                FASTAPI
+                BACKEND
+                   |
+       +-----------+-----------+
+       |           |           |
+       v           v           v
+    ROUTING     SCENIC      ITINERARY
+    ENGINE      ENGINE      GENERATOR
+       |           |           |
+       v           v           v
+   ROUTE DATA   LOCAL OSM    POI DATA
+                DATASETS
+                   |
+                   v
+             SCENIC FEATURES
+                   |
+                   v
+              ML PREDICTOR
+                   |
+                   v
+           ROUTE RECOMMENDER
+                   |
+                   v
+              TRIP RESPONSE
+                   |
+                   v
+               FRONTEND
 ```
 
-
-
-\## Project Structure
-
-
+## Project Structure
 
 ```text
-
-AI-Scenic-Road-Trip-Planner/
-
+ROAM-AI-Scenic-Road-Trip-Planner/
 |
-
 |-- backend/
-
 |   |-- data/
-
 |   |   |-- karnataka.db
-
 |   |   |-- models/
-
-|   |   |-- processed/
-
+|   |   |-- raw/             (generated locally)
+|   |   |-- processed/       (generated locally)
 |   |
-
 |   |-- src/
-
 |   |   |-- main.py
-
 |   |   |-- scenic.py
-
-|   |   |-- scenic\_features.py
-
+|   |   |-- scenic_features.py
+|   |   |-- extract_features.py
+|   |   |-- data_pipeline.py
+|   |   |-- build_database.py
 |   |   |-- itinerary.py
-
 |   |   |-- recommender.py
-
-|   |   |-- ai\_summary.py
-
-|   |   |-- travel\_intel.py
-
-|   |   |-- db.py
-
+|   |   |-- ai_summary.py
+|   |   |-- travel_intel.py
 |   |   |-- ml/
-
 |   |
-
 |   |-- tests/
-
 |   |-- requirements.txt
-
 |   |-- .env.example
-
 |
-
 |-- frontend/
-
 |   |-- src/
-
 |   |   |-- components/
-
 |   |   |-- App.tsx
-
 |   |   |-- App.css
-
 |   |   |-- index.css
-
-|   |
-
 |   |-- package.json
-
 |
-
 |-- .gitignore
-
 |-- README.md
-
 ```
 
+## Installation and Setup
 
+### Prerequisites
 
-\## Installation and Setup
+- Python 3.14 (tested development environment)
+- Node.js and npm
+- Git
+- Internet connection for external routing, geocoding, weather, and dataset downloads
 
-
-
-\### Prerequisites
-
-
-
-\- Python 3.11 or compatible version
-
-\- Node.js and npm
-
-\- Git
-
-
-
-\### 1. Clone the repository
-
-
-
-```bash
-
-git clone YOUR\_GITHUB\_REPOSITORY\_URL
-
-cd AI-Scenic-Road-Trip-Planner
-
-```
-
-
-
-\### 2. Configure the backend
-
-
+### 1. Clone the repository
 
 ```powershell
+git clone https://github.com/vamshyk/ROAM-AI-Scenic-Road-Trip-Planner.git
 
+cd ROAM-AI-Scenic-Road-Trip-Planner
+```
+
+### 2. Set up the backend
+
+```powershell
 cd backend
-
-
 
 python -m venv .venv
 
+.\.venv\Scripts\Activate.ps1
 
-
-.\\.venv\\Scripts\\Activate.ps1
-
-
-
-pip install -r requirements.txt
-
-```
-
-
-
-Create your environment file:
-
-
-
-```powershell
+python -m pip install -r requirements.txt
 
 Copy-Item .env.example .env
-
 ```
 
+Add your Gemini API key to `backend/.env` if you want to use the external AI summary service.
 
+The application also includes fallback summary functionality.
 
-Add the required API keys to `.env` if you want to use external AI services.
+### 3. Prepare the scenic datasets
 
+The repository includes:
 
+- The Karnataka SQLite database.
+- Trained machine learning model artifacts.
 
-\### 3. Configure the scenic datasets
+The scenic feature engine additionally requires these generated CSV files:
 
+- `forests.csv`
+- `water_bodies.csv`
+- `tourist_places.csv`
+- `roads.csv`
 
+These files are excluded from Git because of their size.
 
-The repository includes the Karnataka SQLite database and trained ML model artifacts.
+To generate them:
 
+**Step A — Download the Karnataka OpenStreetMap PBF extract.**
 
+From the `backend` directory, run:
 
-The scenic feature engine also requires these processed datasets inside `backend/data/processed/`:
+```powershell
+New-Item -ItemType Directory -Force data\raw | Out-Null
 
+Invoke-WebRequest `
+  -Uri "https://download.geofabrik.de/asia/india/karnataka-latest.osm.pbf" `
+  -OutFile "data\raw\karnataka-latest.osm.pbf"
+```
 
+**Step B — Run the geographic feature extractor.**
 
-\- `forests.csv`
+Remain in the `backend` directory:
 
-\- `water\_bodies.csv`
+```powershell
+python -m src.extract_features
+```
 
-\- `tourist\_places.csv`
+This generates the processed CSV datasets in:
 
-\- `roads.csv`
+```text
+backend/data/processed/
+```
 
+The extractor also generates `amenities.csv`, which contains additional mapped amenities.
 
+The scenic engine loads the four datasets listed above. Dataset extraction can take time depending on the download, hardware, and data size.
 
-These large processed datasets are excluded from Git. Obtain or regenerate them using the project's data preparation pipeline before running the local OSM scenic scoring engine.
+**Database note:** `src.data_pipeline` is a separate pipeline that downloads compressed Karnataka OSM data and builds the SQLite database. It does not generate the processed CSV files used by the scenic feature engine. The repository already includes a database, so rebuilding it is not normally required for the initial setup.
 
-
-
-The scenic engine should not be considered fully configured on a fresh clone until these files are available.
-
-
-
-\### 4. Start the backend
-
-
+### 4. Start the backend
 
 From the `backend` directory:
 
-
-
 ```powershell
-
 python -m uvicorn src.main:app --reload
-
 ```
-
-
 
 Backend:
 
-
-
 `http://127.0.0.1:8000`
-
-
 
 Interactive API documentation:
 
-
-
 `http://127.0.0.1:8000/docs`
 
+### 5. Start the frontend
 
-
-\### 5. Start the frontend
-
-
-
-Open a second terminal:
-
-
+Open a second terminal from the project root:
 
 ```powershell
-
 cd frontend
-
-
 
 npm install
 
-
-
 npm run dev
-
 ```
-
-
 
 Frontend:
 
-
-
 `http://localhost:5173`
 
-
-
-\## API Endpoints
-
-
-
-The FastAPI backend exposes the following application endpoints:
-
-
+## API Endpoints
 
 | Endpoint | Purpose |
-
 |---|---|
-
 | `GET /api/health` | Backend health check |
-
 | `POST /api/route` | Road route calculation |
-
 | `POST /api/plan-trip` | Trip planning |
-
 | `/api/itinerary` | Itinerary functionality |
-
 | `/api/weather` | Weather information |
-
 | `/api/ml/status` | ML model status |
 
+Use the interactive Swagger documentation at `/docs` for request parameters and response schemas.
 
-
-For request parameters and response schemas, refer to the interactive Swagger documentation at `/docs`.
-
-
-
-\## Scenic Scoring Methodology
-
-
+## Scenic Scoring Methodology
 
 ROAM calculates a heuristic scenic score from 0 to 100 using locally available OpenStreetMap features.
 
-
-
 | Feature | Maximum contribution |
-
 |---|---:|
-
 | Forest score | 40 |
-
 | Water score | 25 |
-
 | Attraction score | 20 |
-
 | Track road score | 15 |
+| **Total** | **100** |
 
-| \*\*Total\*\* | \*\*100\*\* |
+The scoring engine analyses route geometry and nearby mapped features using spatial queries.
 
+**Important limitation:** These features represent mapped OpenStreetMap objects near a route. They do not directly measure subjective scenic beauty, elevation, mountain coverage, or coastline.
 
-
-The scoring engine uses route geometry and spatial queries against local datasets.
-
-
-
-\*\*Important limitation:\*\* These features describe mapped OpenStreetMap objects near a route. They do not directly measure subjective scenic beauty, elevation, mountain coverage or coastline.
-
-
-
-\## Machine Learning
-
-
+## Machine Learning
 
 ROAM includes two machine learning components:
 
+1. **Scenic score prediction:** Random Forest regression.
+2. **Environment classification:** Classification of route environment categories.
 
+The current training pipeline uses a synthetic dataset containing 5,000 generated samples.
 
-1\. \*\*Scenic score prediction:\*\* A Random Forest regression model.
+The models demonstrate the machine learning workflow and experimental predictive capabilities.
 
-2\. \*\*Environment classification:\*\* A classification model that predicts route environment categories.
+**Research limitation:** Training labels are synthetic proxy labels, not independently verified real-world scenic-quality ratings. Evaluation metrics therefore measure performance on the synthetic task, not proven real-world scenic accuracy.
 
+ML predictions are experimental and do not replace the local OSM heuristic scenic score.
 
-
-The current training pipeline uses a synthetic dataset with 5,000 generated samples.
-
-
-
-The models demonstrate the machine learning pipeline and experimental predictive capabilities.
-
-
-
-\*\*Research limitation:\*\* The training labels are synthetic proxy labels, not independently verified real-world scenic-quality ratings. Reported evaluation metrics therefore measure performance on the synthetic task, not proven real-world scenic accuracy.
-
-
-
-The ML predictions are experimental and do not replace the local OSM heuristic scenic score.
-
-
-
-\## Testing
-
-
+## Testing
 
 Run the backend tests from the project root:
 
-
-
 ```powershell
-
-python -m pytest backend\\tests -q
-
+python -m pytest backend\tests -q
 ```
 
+Latest verified development result:
 
-
-Current verified result:
-
-
-
-\*\*25 tests passed.\*\*
-
-
+**25 tests passed.**
 
 The test suite covers:
 
+- Scenic scoring
+- Route recommendation
+- Itinerary generation
+- ML feature extraction
+- ML model training
+- AI summary generation
 
+## Current Limitations
 
-\- Scenic scoring
+- Scenic scoring depends on locally available processed OSM datasets.
+- Scenic quality is approximated using mapped geographic features.
+- ML models use synthetic proxy training labels.
+- Routing, geocoding, and weather information depend on external services.
+- Points of interest are based on mapped data and may not reflect current operating status.
+- Geographic coverage and dataset preparation can be expanded.
 
-\- Route recommendation
+## Future Improvements
 
-\- Itinerary generation
+- Integrate elevation and terrain datasets.
+- Improve scenic scoring with verified real-world ratings.
+- Collect user preferences and feedback for personalized recommendations.
+- Improve weather-aware route suggestions.
+- Expand geographic coverage beyond Karnataka.
+- Automate dataset preparation and validation.
+- Improve verification of points of interest and travel facilities.
 
-\- ML feature extraction
+## Project Information
 
-\- ML model training
+**Project:** ROAM — Beyond the Route
+**Category:** Full-Stack Development, Geospatial Analytics, and Machine Learning
+**Primary focus:** AI-powered scenic road trip planning
 
-\- AI summary generation
+---
 
-
-
-\## Future Improvements
-
-
-
-\- Integrate elevation and terrain datasets.
-
-\- Improve scenic scoring using verified real-world ratings.
-
-\- Collect user preferences and feedback for personalized recommendations.
-
-\- Improve weather-aware route suggestions.
-
-\- Expand geographic coverage beyond Karnataka.
-
-\- Improve dataset preparation and fresh-install automation.
-
-\- Add further validation of points of interest and travel facilities.
-
-
-
-\## Project Information
-
-
-
-\*\*Project:\*\* ROAM — Beyond the Route  
-
-\*\*Category:\*\* Full-Stack Development, Geospatial Analytics and Machine Learning  
-
-\*\*Primary focus:\*\* AI-powered scenic road trip planning
-
-
-
-\---
-
-
-
-\*ROAM aims to make road trips more meaningful by helping travellers explore the journey, not just reach the destination.\*
-
+*ROAM aims to make road trips more meaningful by helping travellers explore the journey, not just reach the destination.*
