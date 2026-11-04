@@ -1,0 +1,25 @@
+.venv/
+**/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+.env
+.env.*
+!.env.example
+
+node_modules/
+dist/
+build/
+*.log
+
+.DS_Store
+Thumbs.db
+
+# Large OpenStreetMap source and processed datasets
+backend/data/raw/
+backend/data/archive/
+backend/data/processed/
+
+# Extra lockfile; this project uses npm
+frontend/pnpm-lock.yaml

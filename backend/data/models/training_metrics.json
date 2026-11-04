@@ -1,0 +1,124 @@
+{
+  "model_type": "experimental_synthetic_proxy",
+  "warning": "Metrics measure performance on synthetic proxy labels only. They are not real-world scenic quality accuracy.",
+  "feature_schema_version": "2.0",
+  "feature_names": [
+    "forest_density_per_10km",
+    "water_density_per_10km",
+    "tourism_density_per_10km",
+    "track_road_ratio",
+    "primary_trunk_road_ratio",
+    "secondary_tertiary_road_ratio",
+    "residential_service_road_ratio",
+    "other_road_ratio",
+    "has_toll",
+    "has_ferry",
+    "distance_norm"
+  ],
+  "n_features": 11,
+  "regressor": {
+    "rmse": 0.3912,
+    "mae": 0.3091,
+    "r2": 0.7363,
+    "cv_r2_mean": 0.7507,
+    "cv_r2_std": 0.0115,
+    "n_estimators": 200,
+    "feature_importances": {
+      "forest_density_per_10km": 0.5622,
+      "water_density_per_10km": 0.1572,
+      "tourism_density_per_10km": 0.0899,
+      "track_road_ratio": 0.0649,
+      "primary_trunk_road_ratio": 0.0251,
+      "secondary_tertiary_road_ratio": 0.0346,
+      "residential_service_road_ratio": 0.0201,
+      "other_road_ratio": 0.0261,
+      "has_toll": 0.0013,
+      "has_ferry": 0.0001,
+      "distance_norm": 0.0185
+    }
+  },
+  "classifier": {
+    "accuracy": 0.982,
+    "f1_macro": 0.9703,
+    "f1_weighted": 0.9821,
+    "classes": [
+      "Forest",
+      "Highway",
+      "Mixed",
+      "Rural",
+      "Tourism-Rich",
+      "Track-Rich",
+      "Water-Rich"
+    ],
+    "confusion_matrix": [
+      [
+        414,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        0,
+        154,
+        9,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        6,
+        81,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        8,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        80,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        98,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        147
+      ]
+    ],
+    "n_estimators": 200
+  },
+  "training_samples": 4000,
+  "test_samples": 1000,
+  "total_samples": 5000,
+  "real_world_validated": false
+}
